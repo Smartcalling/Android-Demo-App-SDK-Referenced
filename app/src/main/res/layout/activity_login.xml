@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="#FFFFFF"
+	tools:context=".Activities.LoginActivity">
+
+	<androidx.constraintlayout.widget.Guideline
+		android:id="@+id/gl10Perc"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintGuide_percent="0.1" />
+
+	<androidx.constraintlayout.widget.Guideline
+		android:id="@+id/gl90Perc"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintGuide_percent="0.9" />
+
+	<ImageView
+		android:id="@+id/imgLogo"
+		android:layout_width="0dp"
+		android:layout_height="100dp"
+		android:adjustViewBounds="true"
+		android:cropToPadding="true"
+		android:paddingTop="10dp"
+		app:layout_constraintStart_toStartOf="@+id/gl10Perc"
+		app:layout_constraintEnd_toEndOf="@+id/gl90Perc"
+		app:layout_constraintTop_toTopOf="parent"
+		android:layout_marginTop="20dp"
+		app:srcCompat="@drawable/isk_logo"/>
+
+	<View
+		android:id="@+id/line1"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="#A2A2A2"
+		android:layout_marginTop="20dp"
+		app:layout_constraintTop_toBottomOf="@id/imgLogo"/>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="#434343"
+		app:layout_constraintTop_toBottomOf="@id/line1"/>
+
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id="@+id/vLogin"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:background="@drawable/rounded_20"
+		android:orientation="vertical"
+		app:layout_constraintLeft_toRightOf="@id/gl10Perc"
+		app:layout_constraintRight_toLeftOf="@id/gl90Perc"
+		app:layout_constraintTop_toBottomOf="@id/line1"
+		android:layout_marginTop="40dp"
+		android:paddingTop="20dp"
+		android:paddingBottom="20dp"
+		android:paddingStart="20dp"
+		android:paddingEnd="20dp">
+
+		<TextView
+			android:id="@+id/lblUserName"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/avenirnext_medium"
+			android:textSize="24sp"
+			android:text="User Name:"
+			android:layout_gravity="center"
+			android:textColor="#000000"
+			app:layout_constraintTop_toTopOf="parent"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"/>
+
+		<EditText
+			android:id="@+id/txtUserName"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:background="@drawable/rounded_textfield"
+			android:fontFamily="@font/avenirnext_medium"
+			android:inputType="text"
+			android:textColor="#FF000000"
+			android:textSize="24sp"
+			android:hint="User Name"
+			android:textAlignment="center"
+			android:textColorHint="#7F9999"
+			app:layout_constraintTop_toBottomOf="@+id/lblUserName"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			android:layout_marginTop="5dp"/>
+
+		<TextView
+			android:id="@+id/lblPWord"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:fontFamily="@font/avenirnext_medium"
+			android:textSize="24sp"
+			android:text="Password:"
+			android:layout_gravity="center"
+			app:layout_constraintLeft_toRightOf="parent"
+			app:layout_constraintRight_toLeftOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/txtUserName"
+			android:textColor="#000000"
+			android:textAlignment="center"
+			android:layout_marginTop="15dp"/>
+
+		<EditText
+			android:id="@+id/txtPWord"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:background="@drawable/rounded_textfield"
+			android:fontFamily="@font/avenirnext_medium"
+			android:hint="Password"
+			android:inputType="textPassword"
+			android:textAlignment="center"
+			android:textColorHint="#7F9999"
+			android:textColor="#FF000000"
+			android:textSize="24sp"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintTop_toBottomOf="@id/lblPWord"
+			tools:ignore="Autofill"
+			android:layout_marginTop="5dp"/>
+
+		<Button
+			android:id="@+id/cmdLogin"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:text="Login"
+			android:padding="5dp"
+			android:background="@drawable/rounded_isk_button"
+			android:fontFamily="@font/avenirnext_medium"
+			android:textSize="24sp"
+			android:textAllCaps="false"
+			android:minHeight="0dp"
+			android:minWidth="0dp"
+			android:textColor="#FFFFFFFF"
+			app:layout_constraintTop_toBottomOf="@id/txtPWord"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintBottom_toBottomOf="parent"
+			android:layout_marginTop="50dp"/>
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+	<Button
+		android:id="@+id/cmdDebug"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:text="Debug"
+		android:background="@drawable/rounded_darkgray_button"
+		android:fontFamily="@font/avenirnext_medium"
+		android:textSize="24sp"
+		android:textAllCaps="false"
+		android:minHeight="0dp"
+		android:minWidth="0dp"
+		android:paddingLeft="20dp"
+		android:paddingRight="20dp"
+		android:paddingTop="5dp"
+		android:paddingBottom="5dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toRightOf="@id/gl10Perc"
+		app:layout_constraintRight_toLeftOf="@id/gl90Perc"
+		android:layout_marginBottom="30dp"
+		android:textColor="#FFFFFFFF"
+		android:visibility="visible"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

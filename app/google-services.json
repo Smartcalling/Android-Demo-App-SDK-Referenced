@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "987495961167",
+    "firebase_url": "https://smartcom-isk-demo.firebaseio.com",
+    "project_id": "smartcom-isk-demo",
+    "storage_bucket": "smartcom-isk-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987495961167:android:2d9d34f8f91fbd85d0503a",
+        "android_client_info": {
+          "package_name": "com.isk.iskdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "987495961167-v0eob2bd93nkdlt9ji48fjjd1a5u34qp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACbKMyx1WyhOmqi8aILujNTz5qSy3Tm2Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987495961167-v0eob2bd93nkdlt9ji48fjjd1a5u34qp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
