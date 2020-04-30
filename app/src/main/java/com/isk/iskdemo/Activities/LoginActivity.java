@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,29 +59,17 @@ public class LoginActivity extends AppCompatActivity {
 		setContentView(root);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-			// Create channel to show notifications.
 			String channelId  = getString(R.string.default_notification_channel_id);
 			String channelName = getString(R.string.default_notification_channel_name);
 			NotificationManager notificationManager = getSystemService(NotificationManager.class);
 			notificationManager.createNotificationChannel(new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW));
 		}
 
-		if (getIntent().getExtras() != null) {
-			for (String key : getIntent().getExtras().keySet()) {
-				Object value = getIntent().getExtras().get(key);
-				Toast.makeText(LoginActivity.this, "Key: " + key + " Value: " + value, Toast.LENGTH_SHORT).show();
-				Log.d("ISKDemo", "Key: " + key + " Value: " + value);
-			}
-		}
+		Globals.smartCallingManager = SmartCallingManager.getInstance();
+		Globals.smartCallingManager.requestPermissions(this);
 
-		//		SmartCallingManager.init(getApplication(), "https://turbot3-215ee28e.localhost.run/", null);
-		SmartCallingManager.init(getApplication(), "https://portal-uat.smartcom.net/", null);
-
-		SmartCallingManager smartCallingManager = SmartCallingManager.getInstance();
-		smartCallingManager.requestPermissions(this);
-
-		smartCallingManager.setOnlineMode(true);
-		Globals.smartCallingId = smartCallingManager.getUserId();
+		Globals.smartCallingManager.setOnlineMode(true);
+		Globals.smartCallingId = Globals.smartCallingManager.getUserId();
 
 		Globals.ctx = this.getApplicationContext();
 		Globals.packageName = this.getPackageName();

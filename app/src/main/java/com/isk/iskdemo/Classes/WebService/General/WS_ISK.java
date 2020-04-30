@@ -13,7 +13,6 @@ import com.isk.iskdemo.Classes.WebService.Classes.U.User;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.ResponseHandlerInterface;
 import com.loopj.android.http.SyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -109,7 +108,8 @@ public class WS_ISK {
 
 			doPostSync(params);
 		}
-		catch (UnsupportedEncodingException ex) {
+		catch (Exception ex) {
+			Log.d("ISKDemo", "AddLog error: " + ex.getMessage());
 		}
 	}
 

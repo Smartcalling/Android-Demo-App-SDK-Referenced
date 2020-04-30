@@ -2,17 +2,16 @@ package com.isk.iskdemo.Classes.FireBase;
 
 //region ** Imports **
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.PowerManager;
 import android.util.Log;
-
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
-
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.isk.iskdemo.Classes.Globals.Globals;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Map;
 
 //endregion
@@ -29,16 +28,15 @@ public class PushHandler extends FirebaseMessagingService {
 	public void onMessageReceived(RemoteMessage remoteMessage) {
 		Log.d("ISKDemo", "From: " + remoteMessage.getFrom());
 
-//		PowerManager pm = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
-//		assert pm != null;
-//		boolean isScreenOn = pm.isInteractive();
-//		//Log.e("screen on.................................", ""+isScreenOn);
-//		if(!isScreenOn) {
-//			@SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, "MyLock");
-//			wl.acquire(10000);
-//			@SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl_cpu = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyCpuLock");
-//			wl_cpu.acquire(10000);
-//		}
+		PowerManager pm = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
+		assert pm != null;
+		boolean isScreenOn = pm.isInteractive();
+		if(!isScreenOn) {
+			@SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE, "MyLock");
+			wl.acquire(10000);
+			@SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl_cpu = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyCpuLock");
+			wl_cpu.acquire(10000);
+		}
 
 		if (remoteMessage.getData().size() > 0) {
 			scheduleJob(remoteMessage.getData());

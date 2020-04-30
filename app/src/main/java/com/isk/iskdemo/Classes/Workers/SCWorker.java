@@ -25,7 +25,6 @@ public class SCWorker extends Worker {
 	@Override
 	public Result doWork() {
 		Globals.smartCallingManager.sync();
-		WS_ISK.AddLog(Globals.currentUser.UserID, "Ran Background Task");
 
 		return Result.success();
 	}
@@ -34,8 +33,6 @@ public class SCWorker extends Worker {
 	@Override
 	public void onStopped() {
 		super.onStopped();
-
-		WS_ISK.AddLog(Globals.currentUser.UserID, "Background Task Stopped");
 	}
 
 }

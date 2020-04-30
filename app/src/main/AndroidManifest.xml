@@ -10,6 +10,7 @@
 	<uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
 
 	<application
+		android:name=".Application.ISKApplication"
 		tools:replace="android:icon"
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
@@ -17,6 +18,7 @@
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/Theme.AppCompat.NoActionBar"
+		android:usesCleartextTraffic="true"
 		android:hardwareAccelerated="true"
 		tools:ignore="GoogleAppIndexingWarning">
 
@@ -33,9 +35,10 @@
 			android:value="@string/default_notification_channel_id" />
 
 
-		<activity android:name=".Activities.LoginActivity">
+		<activity android:name=".Activities.LoginActivity" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
+
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
@@ -55,12 +58,11 @@
 
 		<meta-data
 			android:name="uk.co.smartcalling.ApiKey"
-			android:value="ad9dda4d-287f-44b0-a367-385fd93c8784" />
+			android:value="e8f5fb8c-7555-4462-8ba6-3bc9cc8939d6" />
 
 		<meta-data
 			android:name="uk.co.smartcalling.signature"
 			android:value="MEUCIHBdBJ5QXJyZvp2oc5a6XHapPO9KIwIMDK0YRAqIWRfFAiEA4s3C+R+u49bTtWhWp7La54yZZQ/E1mH1Nv3bvHivDlg=" />
-
 	</application>
 
 </manifest>
