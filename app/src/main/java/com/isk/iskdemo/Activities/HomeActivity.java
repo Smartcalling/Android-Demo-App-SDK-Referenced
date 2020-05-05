@@ -51,6 +51,8 @@ public class HomeActivity extends AppCompatActivity {
 
 		Globals.currentActivity = this;
 
+		ui.lblVersion.setText(String.format("Version: %s", Globals.getAppVersion()));
+
 		ui.lblInfo.setMovementMethod(new ScrollingMovementMethod());
 		LocalBroadcastManager.getInstance(this.getApplicationContext()).registerReceiver(smartComReceiver, new IntentFilter("SCLogging"));
 

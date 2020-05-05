@@ -75,6 +75,8 @@ public class LoginActivity extends AppCompatActivity {
 		Globals.packageName = this.getPackageName();
 		Globals.currentActivity = this;
 
+		ui.lblVersion.setText(String.format("Version: %s", Globals.getAppVersion()));
+
 		setupPush();
 		subscribePush();
 
@@ -86,6 +88,17 @@ public class LoginActivity extends AppCompatActivity {
 		ui.cmdDebug.setOnClickListener(debugClicked);
 
 		Globals.init();
+
+		String uName = Globals.getStringSetting("UserName", "");
+		String pwd = Globals.getStringSetting("Password", "");
+		if (!Globals.IsNullOrEmpty(uName) && !Globals.IsNullOrEmpty(pwd)) {
+			ui.txtUserName.setText(uName);
+
+			String decPwd = Globals.decryptString(pwd);
+			ui.txtPWord.setText(decPwd);
+
+			tryLogin();
+		}
 	}
 
 	//endregion

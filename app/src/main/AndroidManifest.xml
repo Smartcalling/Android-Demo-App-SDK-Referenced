@@ -58,7 +58,7 @@
 
 		<meta-data
 			android:name="uk.co.smartcalling.ApiKey"
-			android:value="e8f5fb8c-7555-4462-8ba6-3bc9cc8939d6" />
+			android:value="5ea24f47-91a7-49c6-b093-72ac1dcbd5d6" />
 
 		<meta-data
 			android:name="uk.co.smartcalling.signature"

@@ -5,6 +5,8 @@ package com.isk.iskdemo.Classes.Globals;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
@@ -122,6 +124,19 @@ public class Globals {
 
 	public static Drawable getDrawable(int dId) {
 		return Globals.ctx.getResources().getDrawable(dId);
+	}
+
+
+	public static String getAppVersion() {
+		String result = "";
+		try {
+			PackageInfo pinfo = Globals.ctx.getPackageManager().getPackageInfo(Globals.ctx.getPackageName(), 0);
+			result = pinfo.versionName;
+		}
+		catch (PackageManager.NameNotFoundException ignored) {
+		}
+
+		return result;
 	}
 
 	//endregion
