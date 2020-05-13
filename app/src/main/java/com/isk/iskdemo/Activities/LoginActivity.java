@@ -19,10 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.isk.iskdemo.Classes.Globals.Globals;
-import com.isk.iskdemo.Classes.WebService.Classes.T.ToucanObject;
-import com.isk.iskdemo.Classes.WebService.Classes.U.User;
-import com.isk.iskdemo.Classes.WebService.General.WS_ISK;
-import com.isk.iskdemo.Classes.WebService.General.WS_Result;
 import com.isk.iskdemo.R;
 import com.isk.iskdemo.databinding.ActivityLoginBinding;
 
@@ -65,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
 			notificationManager.createNotificationChannel(new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW));
 		}
 
+		Globals.init();
+
 		Globals.smartCallingManager = SmartCallingManager.getInstance();
 		Globals.smartCallingManager.requestPermissions(this);
 
@@ -77,6 +75,9 @@ public class LoginActivity extends AppCompatActivity {
 
 		ui.lblVersion.setText(String.format("Version: %s", Globals.getAppVersion()));
 
+		ui.txtUserName.setText(Globals.testUserName);
+		ui.txtPWord.setText(Globals.testPassword);
+
 		setupPush();
 		subscribePush();
 
@@ -85,9 +86,6 @@ public class LoginActivity extends AppCompatActivity {
 		);
 
 		ui.cmdLogin.setOnClickListener(loginClicked);
-		ui.cmdDebug.setOnClickListener(debugClicked);
-
-		Globals.init();
 
 		String uName = Globals.getStringSetting("UserName", "");
 		String pwd = Globals.getStringSetting("Password", "");
@@ -121,15 +119,6 @@ public class LoginActivity extends AppCompatActivity {
 		}
 	};
 
-
-	private final View.OnClickListener debugClicked = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			ui.txtUserName.setText(Globals.testUserName);
-			ui.txtPWord.setText(Globals.testPassword);
-		}
-	};
-
 	//endregion
 
 
@@ -160,63 +149,17 @@ public class LoginActivity extends AppCompatActivity {
 
 
 	private void tryLogin() {
-		final String strUName = ui.txtUserName.getText().toString().trim();
-		final String strPWord = ui.txtPWord.getText().toString().trim();
-
+		// HERE IS WHERE YOU WOULD LOGIN VIA YOUR OWN API, GET THE USER AND A UNIQUE ID FOR THAT USER
 		Globals.dismissKeyBoard(LoginActivity.this);
 
-		WS_ISK.GetToucan(strUName, strPWord, result -> {
-			if (result.result == WS_Result.enumWSResult.SUCCESS) {
-				ToucanObject toucan = (ToucanObject)result.xObject;
-				if (!Globals.IsNullOrEmpty(toucan.Toucan)) {
-					Globals.Toucan = toucan;
+		Globals.dismissProgress();
 
-					WS_ISK.GetUser(toucan.UserID, result1 -> {
-						if (result1.result == WS_Result.enumWSResult.SUCCESS) {
-							User nUser = (User) result1.xObject;
+		final Handler handler = new Handler();
+		handler.postDelayed(() -> {
+			setDefaults();
+			goHome();
+		}, 250);
 
-							Globals.dismissProgress();
-
-							Globals.currentUser = nUser;
-
-							final Handler handler = new Handler();
-							handler.postDelayed(() -> {
-								setDefaults();
-								goHome();
-							}, 250);
-						}
-						else {
-							Globals.dismissProgress();
-							ui.txtPWord.setText("");
-							Globals.Toucan = null;
-							Globals.showOKMessage(Globals.enumMsgType.MSG_ERROR, "Invalid Login", "The app does not recognise the login details you have entered.\nPlease try again.", null);
-						}
-					});
-				}
-				else {
-					Globals.dismissProgress();
-					ui.txtPWord.setText("");
-					Globals.Toucan = null;
-					Globals.showOKMessage(Globals.enumMsgType.MSG_ERROR, "Invalid Login", "The app does not recognise the login details you have entered.\nPlease try again.", null);
-				}
-			}
-			else if (result.result == WS_Result.enumWSResult.RETRY) {
-				Globals.dismissProgress();
-				tryLogin();
-			}
-			else if (result.result == WS_Result.enumWSResult.INVALIDLOGIN) {
-				Globals.dismissProgress();
-				ui.txtPWord.setText("");
-				Globals.Toucan = null;
-				Globals.showOKMessage(Globals.enumMsgType.MSG_ERROR, "Invalid Login", "The app does not recognise the login details you have entered.\nPlease try again.", null);
-			}
-			else {
-				Globals.dismissProgress();
-				ui.txtPWord.setText("");
-				Globals.Toucan = null;
-				Globals.showOKMessage(Globals.enumMsgType.MSG_ERROR, "Invalid Login", "The app does not recognise the login details you have entered.\nPlease try again.", null);
-			}
-		});
 	}
 
 
@@ -230,8 +173,9 @@ public class LoginActivity extends AppCompatActivity {
 			Globals.setStringSetting("Password", encPwd);
 		}
 
-		Globals.setIntSetting("UserID", Globals.currentUser.UserID);
-		Globals.setStringSetting("UniqueId", Globals.currentUser.UniqueId);
+		// SET UniqueId VALUE TO THE UNIQUE USER ID RETURNED BY YOUR LOGIN
+		Globals.setIntSetting("UserID", 1);
+		Globals.setStringSetting("UniqueId", "a58a7ea2d64a42a7b0e206f23c6f2b95");
 	}
 
 

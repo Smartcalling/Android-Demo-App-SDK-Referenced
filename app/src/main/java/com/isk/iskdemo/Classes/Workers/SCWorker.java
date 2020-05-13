@@ -9,7 +9,6 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.isk.iskdemo.Classes.Globals.Globals;
-import com.isk.iskdemo.Classes.WebService.General.WS_ISK;
 
 //endregion
 

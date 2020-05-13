@@ -11,13 +11,8 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 
-import androidx.annotation.NonNull;
-
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.isk.iskdemo.Classes.Misc.Crypto;
-import com.isk.iskdemo.Classes.WebService.Classes.T.ToucanObject;
-import com.isk.iskdemo.Classes.WebService.Classes.U.User;
 import com.isk.iskdemo.R;
 
 import java.io.UnsupportedEncodingException;
@@ -40,7 +35,6 @@ public class Globals {
 	public static Context ctx;
 	public static String packageName;
 
-	public static ToucanObject Toucan;
 	public static String apiURL;
 	public static String testUserName;
 	public static String testPassword;
@@ -49,7 +43,6 @@ public class Globals {
 
 	private static Crypto.SecretKeys secretKeys;
 
-	public static User currentUser;
 	public static Activity currentActivity;
 
 	public static String smartCallingId;

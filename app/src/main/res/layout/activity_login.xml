@@ -148,28 +148,6 @@
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
 
-	<Button
-		android:id="@+id/cmdDebug"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:text="Debug"
-		android:background="@drawable/rounded_darkgray_button"
-		android:fontFamily="@font/avenirnext_medium"
-		android:textSize="24sp"
-		android:textAllCaps="false"
-		android:minHeight="0dp"
-		android:minWidth="0dp"
-		android:paddingLeft="20dp"
-		android:paddingRight="20dp"
-		android:paddingTop="5dp"
-		android:paddingBottom="5dp"
-		app:layout_constraintBottom_toTopOf="@id/lblVersion"
-		app:layout_constraintLeft_toRightOf="@id/gl10Perc"
-		app:layout_constraintRight_toLeftOf="@id/gl90Perc"
-		android:layout_marginBottom="30dp"
-		android:textColor="#FFFFFFFF"
-		android:visibility="visible"/>
-
 	<TextView
 		android:id="@+id/lblVersion"
 		android:layout_width="wrap_content"

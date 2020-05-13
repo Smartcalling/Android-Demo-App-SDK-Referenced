@@ -22,7 +22,6 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import com.isk.iskdemo.Classes.Globals.Globals;
-import com.isk.iskdemo.Classes.WebService.General.WS_ISK;
 import com.isk.iskdemo.Classes.Workers.SCWorker;
 import com.isk.iskdemo.R;
 import com.isk.iskdemo.databinding.ActivityHomeBinding;
@@ -56,23 +55,19 @@ public class HomeActivity extends AppCompatActivity {
 		ui.lblInfo.setMovementMethod(new ScrollingMovementMethod());
 		LocalBroadcastManager.getInstance(this.getApplicationContext()).registerReceiver(smartComReceiver, new IntentFilter("SCLogging"));
 
-		ui.lblWelcome.setText("Welcome " + Globals.currentUser.getFullName());
+		// USE USER NAME RETURNED BY YOUR OWN API
+		ui.lblWelcome.setText("Welcome John Smith");
 		ui.lblSCId.setText("SmartCalling Id:\n" + Globals.smartCallingId);
-		ui.lblClientId.setText("Client Id:\n" + Globals.currentUser.UniqueId);
+		// USE UNIQUE ID RETURNED BY YOUR API
+		ui.lblClientId.setText("Client Id:\na58a7ea2d64a42a7b0e206f23c6f2b95");
 
-		Globals.smartCallingManager.setClientId(Globals.currentUser.UniqueId);
+		Globals.smartCallingManager.setClientId("a58a7ea2d64a42a7b0e206f23c6f2b95");
 		Globals.smartCallingManager.setFCMToken(Globals.pushToken);
-
-		if (!TextUtils.isEmpty(Globals.pushToken)) {
-			WS_ISK.PostPushToken(Globals.currentUser.UserID, Globals.pushToken, result -> {
-			});
-		}
 
 		startWorker();
 
 		ui.cmdLogOut.setOnClickListener(v -> {
 			Globals.smartCallingManager.setClientId("");
-			Globals.currentUser = null;
 
 			Globals.setStringSetting("UserName", "");
 			Globals.setStringSetting("Password", "");
