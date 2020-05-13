@@ -43,7 +43,7 @@ dependencies {
 	implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 	implementation 'com.loopj.android:android-async-http:1.4.9'
 	implementation "androidx.work:work-runtime-ktx:2.3.4"
-	implementation('uk.co.smartcalling.sdk:smartcalling:1.2.2@aar') {
+	implementation('uk.co.smartcalling.sdk:smartcalling:1.2.3@aar') {
 		transitive=true
 		exclude(group: 'org.json', module: 'json')
 	}
