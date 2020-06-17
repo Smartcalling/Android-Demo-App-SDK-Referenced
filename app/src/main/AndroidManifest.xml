@@ -5,9 +5,6 @@
 
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-	<uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
 
 	<application
 		android:name=".Application.ISKApplication"
@@ -58,7 +55,7 @@
 
 		<meta-data
 			android:name="uk.co.smartcalling.ApiKey"
-			android:value="aaebaca9-c4b8-4a0f-9696-49863e2331bc" />
+			android:value="fc60d61e-0ac0-4142-91bd-cf08f2ceb300" />
 
 		<meta-data
 			android:name="uk.co.smartcalling.signature"

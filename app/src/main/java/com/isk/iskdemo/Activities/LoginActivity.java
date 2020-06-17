@@ -134,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
 
 					// Get new Instance ID token
 					Globals.pushToken = Objects.requireNonNull(task.getResult()).getToken();
+					Globals.smartCallingManager.setFCMToken(Globals.pushToken);
 				});
 	}
 
