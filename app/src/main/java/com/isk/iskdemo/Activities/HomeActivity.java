@@ -67,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
 		startWorker();
 
 		ui.cmdLogOut.setOnClickListener(v -> {
-			Globals.smartCallingManager.setClientId("");
+			Globals.smartCallingManager.logOut();
 
 			Globals.setStringSetting("UserName", "");
 			Globals.setStringSetting("Password", "");
