@@ -29,7 +29,7 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 
 	```
 	dependencies {
-		compile('uk.co.smartcalling.sdk:smartcalling:1.2.3@aar') {
+		compile('uk.co.smartcalling.sdk:smartcalling:1.3.1@aar') {
 			transitive=true
 			changing=true
 			exclude(group: 'org.json', module: ‘json')
@@ -65,9 +65,6 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 	```
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
-	<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-	<uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
 	```
 
 8) Next, Add the following to the onCreate() method of your project’s Application:
@@ -134,6 +131,15 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 2) The unique ID can be any value such as a primary key value or GUID. It simply needs to be unique to your user within your system.
 
 
+## Logout Process
+
+1) If your app has a logout process it is important that you add code to logout of the SDK also. Simply add the following line of code to your logout process:
+
+	```
+	SmartCallingManager.getInstance().logOut(0;
+	```
+
+
 ## Firebase Cloud Messaging Support
   
 1) The SmartCom solution utilises FireBase Cloud Messaging (FCM) to notify your app of any changes to your campaigns. Once your app has a push token, this must be applied to the FCMToken property of the SmartCallingManager. Below is an example of initialising Firebase and sending the token to the SDK:
@@ -156,7 +162,7 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 2) Next, you must add code to subscribe to the 'campaign' topic:
 
 	```
-	FirebaseMessaging.getInstance().subscribeToTopic("campaign")
+	FirebaseMessaging.getInstance().subscribeToTopic("smartcallingcampaign")
 		.addOnCompleteListener(task1 -> {
 			if (!task1.isSuccessful()) {
 				Log.d("SCDemo", "Failed");
