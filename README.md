@@ -136,7 +136,7 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 1) If your app has a logout process it is important that you add code to logout of the SDK also. Simply add the following line of code to your logout process:
 
 	```
-	SmartCallingManager.getInstance().logOut(0;
+	SmartCallingManager.getInstance().logOut();
 	```
 
 
