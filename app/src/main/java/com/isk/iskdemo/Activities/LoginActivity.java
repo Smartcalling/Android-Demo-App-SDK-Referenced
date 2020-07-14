@@ -64,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
 		Globals.init();
 
 		Globals.smartCallingManager = SmartCallingManager.getInstance();
-		Globals.smartCallingManager.requestPermissions(this);
 
 		Globals.smartCallingManager.setOnlineMode(true);
 		Globals.smartCallingId = Globals.smartCallingManager.getUserId();
@@ -96,6 +95,9 @@ public class LoginActivity extends AppCompatActivity {
 			ui.txtPWord.setText(decPwd);
 
 			tryLogin();
+		}
+		else {
+			Globals.smartCallingManager.requestPermissions(this);
 		}
 	}
 
@@ -140,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 	private void subscribePush() {
-		FirebaseMessaging.getInstance().subscribeToTopic("campaign")
+		FirebaseMessaging.getInstance().subscribeToTopic("smartcallingcampaign")
 				.addOnCompleteListener(task1 -> {
 					if (!task1.isSuccessful()) {
 						Log.d("ISKDemo", "Failed");

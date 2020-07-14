@@ -8,11 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.work.Constraints;
@@ -28,6 +29,8 @@ import com.isk.iskdemo.databinding.ActivityHomeBinding;
 
 import java.util.concurrent.TimeUnit;
 
+import uk.co.smartcalling.smartcalling.SmartCallingManager;
+
 //endregion
 
 
@@ -38,6 +41,9 @@ public class HomeActivity extends AppCompatActivity {
 	private ActivityHomeBinding ui;
 
 	//endregion
+
+
+	//region ** Initialisation **
 
 	@SuppressLint("SetTextI18n")
 	@Override
@@ -64,6 +70,8 @@ public class HomeActivity extends AppCompatActivity {
 		Globals.smartCallingManager.setClientId("a58a7ea2d64a42a7b0e206f23c6f2b95");
 		Globals.smartCallingManager.setFCMToken(Globals.pushToken);
 
+		Globals.smartCallingManager.requestPermissions(this);
+
 		startWorker();
 
 		ui.cmdLogOut.setOnClickListener(v -> {
@@ -83,6 +91,14 @@ public class HomeActivity extends AppCompatActivity {
 
 		ui.cmdPoll.setOnClickListener(v -> Globals.smartCallingManager.sync());
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+
+	//endregion
 
 
 	//region ** Broadcast Receivers **
@@ -120,6 +136,26 @@ public class HomeActivity extends AppCompatActivity {
 				.observe(this, info ->
 						Log.d("ISKDemo", "")
 				);
+	}
+
+	//endregion
+
+
+	//region ** Permissions **
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+		SmartCallingManager.getInstance().onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+	}
+
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		SmartCallingManager.getInstance().onActivityResult(this, requestCode, resultCode, data);
 	}
 
 	//endregion
