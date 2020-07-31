@@ -88,7 +88,6 @@ public class HomeActivity extends AppCompatActivity {
 			finish();
 		});
 
-
 		ui.cmdPoll.setOnClickListener(v -> Globals.smartCallingManager.sync());
 	}
 
