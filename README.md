@@ -24,7 +24,6 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 	}
 	```
 
-
 3) Add the following dependencies section (or add to your existing dependencies section) at the top level of build.gradle:
 
 	```
@@ -159,7 +158,7 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 
 	```
 
-2) Next, you must add code to subscribe to the 'campaign' topic:
+2) Next, you must add code to subscribe to the 'smartcallingcampaign' topic:
 
 	```
 	FirebaseMessaging.getInstance().subscribeToTopic("smartcallingcampaign")
@@ -170,7 +169,18 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 		});
 	```
 
-3) When a push is received your push handler must pass the push data to the SDK. This demo app has an example of how to do this using a 'OneTimeWorkRequest':
+3) If your Smartcalling contract supports the use of blacklist, you must also add code to subscribe to the 'smblacklistupdate' topic. This code can go immediately beneath the code subscribing to the 'smartcallingcampaign' topic:
+
+	```
+	FirebaseMessaging.getInstance().subscribeToTopic("smblacklistupdate")
+		.addOnCompleteListener(task1 -> {
+			if (!task1.isSuccessful()) {
+				Log.d("SCDemo", "Failed");
+			}
+		});
+	```
+	
+4) When a push is received your push handler must pass the push data to the SDK. This demo app has an example of how to do this using a 'OneTimeWorkRequest':
 
 	```
 	@Override
@@ -217,7 +227,7 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 	}
 	```
 	
-4) If you can't or do not want to support the FCM push messaging solution you will need to implement a background worker that calls the SmartCallingManager.sync command. An example of this can be found in the HomeActivity of demo app:
+5) If you can't or do not want to support the FCM push messaging solution you will need to implement a background worker that calls the SmartCallingManager.sync command. An example of this can be found in the HomeActivity of demo app:
 
 	```
 	protected void onCreate(Bundle savedInstanceState) {
