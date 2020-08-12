@@ -169,7 +169,7 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 		});
 	```
 
-3) If your Smartcalling contract supports the use of blacklist, you must also add code to subscribe to the 'smblacklistupdate' topic. This code can go immediately beneath the code subscribing to the 'smartcallingcampaign' topic:
+3) If your Smartcalling contract supports the use of blacklists, you must also add code to subscribe to the 'smblacklistupdate' topic. This code can go immediately beneath the code subscribing to the 'smartcallingcampaign' topic:
 
 	```
 	FirebaseMessaging.getInstance().subscribeToTopic("smblacklistupdate")
