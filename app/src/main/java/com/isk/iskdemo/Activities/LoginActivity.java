@@ -148,6 +148,13 @@ public class LoginActivity extends AppCompatActivity {
 						Log.d("ISKDemo", "Failed");
 					}
 				});
+
+		FirebaseMessaging.getInstance().subscribeToTopic("smblacklistupdate")
+				.addOnCompleteListener(task1 -> {
+					if (!task1.isSuccessful()) {
+						Log.d("ISKDemo", "Failed");
+					}
+				});
 	}
 
 
