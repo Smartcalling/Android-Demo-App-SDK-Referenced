@@ -17,8 +17,8 @@ public class ISKApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 
-//		SmartCallingManager.init(this, "https://portal-uat.smartcom.net/", null);
-		SmartCallingManager.init(this, "https://58a0e0833b41.ngrok.io/", null);
+		SmartCallingManager.init(this, "https://portal-uat.smartcom.net/", null);
+//		SmartCallingManager.init(this, "https://7a2719e9419b.ngrok.io/", null);
 
 
 		Globals.smartCallingManager = SmartCallingManager.getInstance();
