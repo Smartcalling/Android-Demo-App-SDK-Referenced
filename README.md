@@ -1,6 +1,6 @@
 # Android-Demo-App-SDK-Referenced
-	App Version: 1.5
-	SDK Version: 1.3.1
+	App Version: 2.4
+	SDK Version: 2.0.5
 
 Please report any bugs/issues/suggestions to <cj@smartcalling.co.uk>
 
