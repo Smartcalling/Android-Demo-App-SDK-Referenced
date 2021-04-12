@@ -1,6 +1,6 @@
 # Android-Demo-App-SDK-Referenced
 	App Version: 2.6
-	SDK Version: 2.0.6
+	Library Version: 2.0.6
 
 Please report any bugs/issues/suggestions to <cj@smartcalling.co.uk>
 
@@ -8,10 +8,7 @@ Please report any bugs/issues/suggestions to <cj@smartcalling.co.uk>
 ## Installation
 
 
-The SmartCalling SDK is provided in the form of an AAR file (Android Library Project) and can be included in your project as a Maven dependency.
-
-
-**NOTE FOR ECLIPSE USERS: Whilst Android Studio has excellent support for AAR dependencies, Eclipse has only limited support for working with AARs. For more information regarding using AAR dependencies in Eclipse, please see https://commonsware.com/blog/2014/07/03/consuming-aars-eclipse.html. This guide will cover the use of Android Studio only.**
+The SmartCalling library is provided in the form of an AAR file (Android Library Project) and can be included in your project as a Maven dependency. **This library requires a Android SDK version 21 as a minimum**.
 
 
 1) Open your build.gradle file corresponding to a new/existing Android Studio project which you wish to integrate with SmartCalling (this is normally the build.gradle file for your 'app' module).
@@ -24,14 +21,13 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 	}
 	```
 
+
 3) Add the following dependencies section (or add to your existing dependencies section) at the top level of build.gradle:
 
 	```
 	dependencies {
-		compile('uk.co.smartcalling.sdk:smartcalling:2.0.6@aar') {
-			transitive=true
-			changing=true
-			exclude(group: 'org.json', module: ‘json')
+		implementation('uk.co.smartcalling.sdk:smartcalling:2.0.6@aar') {
+   			exclude(group: 'org.json', module: 'json')
 		}
 	}
 	```
@@ -49,9 +45,9 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 	}
 	```
 
-5) The SmartCalling SDK has now been integrated and you should now perform a Gradle Sync and build your project to pull in the AAR dependency.
+5) The SmartCalling library has now been integrated and you should now perform a Gradle Sync and build your project to pull in the AAR dependency.
 
-6) If you haven't already, you will need to add your app to the SmartCom portal. Once this is done, you will be provided with an API Key. You should add the following values to the Manifest using your API Key:
+6) If you haven't already, you will need to add your app to the SmartCom portal. Once this is done, you will be provided with an API Key. You should add the following values into the <Application> section of your Manifest. Replace the 'XXX' with your API Key:
 	
 	```
 	<meta-data
@@ -59,38 +55,60 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 		android:value="XXX" />
 	```
 	
-7) The SDK requires the following manifest permissions which must be added to the manifest if they have not already been added:
+7) The library requires the following manifest permissions which must be added to the root <manifest> section of your manifest if they have not already been added The ‘*android.permission.INTERNET*’ permission is required to access any online services while the ‘*com.google.android.c2dm.permission.RECEIVE*’ permission is required to receive Google Firebase push notifications:
 
 	```
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 	```
 
-8) Next, Add the following to the onCreate() method of your project’s Application:
+8) If you do not already have one, you must create an Application class and reference that class in your manifest:
+
+	```
+	public class MyApplication extends Application {
+		@Override
+		public void onCreate() {
+			super.onCreate();
+		}
+	}
+
+	<manifest>
+		...
+		<application
+			android:name=”MyApplication”
+			...
+		>
+			...
+		</application>
+		...
+	<mainfest>
+	```
+
+9) Next, Add the following to the onCreate() method of your project’s Application:
 
 	```
 	@Override
-	Public void onCreate() {
+	public void onCreate() {
 		super.onCreate();
 	   
 		SmartCallingManager.init(this, "https://portal.smartcom.net/", null);
 	}
 	```
   
-9) If you require a reference to the SmartCalling Manager instance you can do so using something like the code below. You can then use this reference instead of calling *SmartCallingManager.getInstance()* each time:
+10) If you require a reference to the SmartCalling Manager instance you can do so using something like the code below. You can then use this reference instead of calling *SmartCallingManager.getInstance()* each time. The example code below will continue to use *SmartCallingManager.getInstance()* but all occurrences of this code could be replaced with your referenced instance variable:
 
 	```
 	public static SmartCallingManager smartCallingManager;
 	smartCallingManager = SmartCallingManager.getInstance();
 	```
 
-10) The SDK requires certain permissions to work correctly, to that end you need to make a call to the 'requestPermissions' function in the SDK:
+11) The library requires certain permissions to work correctly, to that end you need to make a call to the 'requestPermissions' function in the library. Ideally this line of code should be written into your starting activity. **This function MUST be called after the 'init' command**:
 
 	```
 	SmartCallingManager.getInstance().requestPermissions(this);
 	```
 
-11) Then you will need to ensure your activity extends from AppCompatActivity and you will need to implement two methods to forward Android permission callbacks on to the SmartCalling SDK. These methods are onRequestPermissionsResult and onActivityResult. Once you have implemented these, ensure they are calling super() with all the required arguments and then ensure that each method forwards on to the SmartCallingManager. Your methods should look like this:
+12) Then you will need to ensure your activity extends from AppCompatActivity and you will need to implement two methods to forward Android permission callbacks on to the SmartCalling library. These methods are onRequestPermissionsResult and onActivityResult. Once you have implemented these, ensure they are calling super() with all the required arguments and then ensure that each method forwards on to the SmartCallingManager. Your methods should look like this:
 
 	```
 	@Override
@@ -106,22 +124,10 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 	}
 	```
 
-12) You also need to tell the SDK that you have an internet connection by making the following call:
-
-	```
-	SmartCallingManager.getInstance().setOnlineMode(true);
-	```
-		
-13) Each device utilising the SmartCom SDK will also be assigned an ID that is used internally. If, for any reason you want to store this value, you can retrieve the ID using the following command:
-
-	```
-	String scID = SmartCallingManager.getInstance().getUserId();
-	```
-
 
 ## Login Process
 
-1) An assumption is made that your app will have a login process that results in the app receiving user information. For the SDK to work correctly, your login process must return a unique ID for the user logged in. This unique ID must be passed to the SDK using the following code (where XXX is the unique user ID):
+1) An assumption is made that your app will have a login process that results in the app receiving user information. For the library to work correctly, your login process must return a unique ID for the user logged in. This unique ID must be passed to the library using the following code (where XXX is the unique user ID):
 
 	```
 	SmartCallingManager.getInstance().setClientId("XXX");
@@ -132,7 +138,7 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 
 ## Logout Process
 
-1) If your app has a logout process it is important that you add code to logout of the SDK also. Simply add the following line of code to your logout process:
+1) If your app has a logout process it is important that you add code to logout of the library also. Simply add the following line of code to your logout process:
 
 	```
 	SmartCallingManager.getInstance().logOut();
@@ -141,13 +147,13 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 
 ## Firebase Cloud Messaging Support
   
-1) The SmartCom solution utilises FireBase Cloud Messaging (FCM) to notify your app of any changes to your campaigns. Once your app has a push token, this must be applied to the FCMToken property of the SmartCallingManager. Below is an example of initialising Firebase and sending the token to the SDK:
+1) The SmartCom solution utilises FireBase Cloud Messaging (FCM) to notify your app of any changes to your campaigns. Once your app has a push token, this must be applied to the FCMToken property of the SmartCallingManager. Below is an example of initialising Firebase and sending the token to the library:
 
 	```
 	FirebaseInstanceId.getInstance().getInstanceId()
 		.addOnCompleteListener(task -> {
 			if (!task.isSuccessful()) {
-				Log.w("SCDemo", "getInstanceId failed", task.getException());
+				// You may want to log this issue
 				return;
 			}
 
@@ -158,13 +164,13 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 
 	```
 
-2) Next, you must add code to subscribe to the 'smartcallingcampaign' topic:
+2) Next, you must add code to subscribe to the 'campaign' topic:
 
 	```
 	FirebaseMessaging.getInstance().subscribeToTopic("smartcallingcampaign")
 		.addOnCompleteListener(task1 -> {
 			if (!task1.isSuccessful()) {
-				Log.d("SCDemo", "Failed");
+				// You may want to log this issue
 			}
 		});
 	```
@@ -175,12 +181,12 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 	FirebaseMessaging.getInstance().subscribeToTopic("smblacklistupdate")
 		.addOnCompleteListener(task1 -> {
 			if (!task1.isSuccessful()) {
-				Log.d("SCDemo", "Failed");
+				// You may want to log this issue
 			}
 		});
 	```
-	
-4) When a push is received your push handler must pass the push data to the SDK. This demo app has an example of how to do this using a 'OneTimeWorkRequest':
+
+4) When a push is received your push handler must pass the push data to the library. This demo app has an example of how to do this using a 'OneTimeWorkRequest':
 
 	```
 	@Override
@@ -251,7 +257,7 @@ The SmartCalling SDK is provided in the form of an AAR file (Android Library Pro
 
 		mWorkManager.getWorkInfoByIdLiveData(workRequest.getId())
 				.observe(this, info ->
-						Log.d("SCDemo", "")
+					// You may want to log this
 				);
 	}
 	
