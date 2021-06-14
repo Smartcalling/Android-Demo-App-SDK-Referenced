@@ -95,7 +95,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 	}
 	```
 
-11) Alternatively, if you want to support SSL Pinning to prevent a 'Man in the Middle' attack you can provide a set of SHA256 keys as a list of strings in the second parameter. The keys shown here are for the SmartCom API but if you are hosting the Portal/API yourself you can gather your keys using this site https://www.ssllabs.com/ssltest. Please note that each string must start with 'sha256/':
+10) Alternatively, if you want to support SSL Pinning to prevent a 'Man in the Middle' attack you can provide a set of SHA256 keys as a list of strings in the second parameter. The keys shown here are for the SmartCom API but if you are hosting the Portal/API yourself you can gather your keys using this site https://www.ssllabs.com/ssltest. Please note that each string must start with 'sha256/':
 
 	```
 	@Override
@@ -111,20 +111,20 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 	}
 	```
 		
-10) If you require a reference to the SmartCalling Manager instance you can do so using something like the code below. You can then use this reference instead of calling *SmartCallingManager.getInstance()* each time. The example code below will continue to use *SmartCallingManager.getInstance()* but all occurrences of this code could be replaced with your referenced instance variable:
+11) If you require a reference to the SmartCalling Manager instance you can do so using something like the code below. You can then use this reference instead of calling *SmartCallingManager.getInstance()* each time. The example code below will continue to use *SmartCallingManager.getInstance()* but all occurrences of this code could be replaced with your referenced instance variable:
 
 	```
 	public static SmartCallingManager smartCallingManager;
 	smartCallingManager = SmartCallingManager.getInstance();
 	```
 
-11) The library requires certain permissions to work correctly, to that end you need to make a call to the 'requestPermissions' function in the library. Ideally this line of code should be written into your starting activity. **This function MUST be called after the 'init' command**:
+12) The library requires certain permissions to work correctly, to that end you need to make a call to the 'requestPermissions' function in the library. Ideally this line of code should be written into your starting activity. **This function MUST be called after the 'init' command**:
 
 	```
 	SmartCallingManager.getInstance().requestPermissions(this);
 	```
 
-12) Then you will need to ensure your activity extends from AppCompatActivity and you will need to implement two methods to forward Android permission callbacks on to the SmartCalling library. These methods are onRequestPermissionsResult and onActivityResult. Once you have implemented these, ensure they are calling super() with all the required arguments and then ensure that each method forwards on to the SmartCallingManager. Your methods should look like this:
+13) Then you will need to ensure your activity extends from AppCompatActivity and you will need to implement two methods to forward Android permission callbacks on to the SmartCalling library. These methods are onRequestPermissionsResult and onActivityResult. Once you have implemented these, ensure they are calling super() with all the required arguments and then ensure that each method forwards on to the SmartCallingManager. Your methods should look like this:
 
 	```
 	@Override
