@@ -94,7 +94,23 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 		SmartCallingManager.init(this, "https://portal.smartcom.net/", null);
 	}
 	```
-  
+
+11) Alternativey, if you want to support SSL Pinning to prevent a 'Man in the Middle' attack you can provide a set of SHA256 keys as a list of strings in the second parameter. The keys shown here are for the SmartCom API but if you are hosting the Portal/API yourself you can gather your keys using this site https://www.ssllabs.com/ssltest. Please note that each string must start with 'sha256/':
+
+	```
+	@Override
+	public void onCreate() {
+		super.onCreate();
+	   
+		List<String> sslPins = new ArrayList<String>();
+		sslPins.add("sha256/oqVjl7U2cA40xKaPgwLOLl2OaBulsnLEWGCA//gd9qo=");
+		sslPins.add("sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=");
+		sslPins.add("sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=");
+		sslPins.add("sha256/KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=");
+		SmartCallingManager.init(this, "https://portal.smartcom.net/", sslPins);
+	}
+	```
+		
 10) If you require a reference to the SmartCalling Manager instance you can do so using something like the code below. You can then use this reference instead of calling *SmartCallingManager.getInstance()* each time. The example code below will continue to use *SmartCallingManager.getInstance()* but all occurrences of this code could be replaced with your referenced instance variable:
 
 	```
