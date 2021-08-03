@@ -29,7 +29,6 @@ public class ISKApplication extends Application {
 
 		//		SmartCallingManager.init(this, "https://528a27c47b2e.ngrok.io/", null);
 
-
 		Globals.smartCallingManager = SmartCallingManager.getInstance();
 
 		Globals.smartCallingManager.setOnlineMode(true);
