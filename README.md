@@ -64,6 +64,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 
 8) If you do not already have one, you must create an Application class and reference that class in your manifest:
 
+	**JAVA**
 	```
 	public class MyApplication extends Application {
 		@Override
@@ -71,7 +72,19 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 			super.onCreate();
 		}
 	}
+	```
 
+	**KOTLIN**
+	```
+	public class MyApplication : Application() { 
+		override fun onCreate() {
+			super.onCreate()
+		}
+	}
+	```
+
+	**Manifest**
+	```
 	<manifest>
 		...
 		<application
@@ -351,7 +364,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 		val isScreenOn = pm.isInteractive
 		if (!isScreenOn) {
 			@SuppressLint("InvalidWakeLockTag") 
-			val wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUPor PowerManager.ON_AFTER_RELEASE, "MyLock")
+			val wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK || PowerManager.ACQUIRE_CAUSES_WAKEUP || PowerManager.ON_AFTER_RELEASE, "MyLock")
 			wl.acquire(10000)
 			@SuppressLint("InvalidWakeLockTag") 
 			val wl_cpu = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyCpuLock")
