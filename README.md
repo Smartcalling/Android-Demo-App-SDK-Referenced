@@ -1,6 +1,6 @@
 # Android-Demo-App-SDK-Referenced
-	App Version: 2.6
-	Library Version: 2.0.6
+	App Version: 4.17
+	Library Version: 4.1.7
 
 Please report any bugs/issues/suggestions to <cj@smartcalling.co.uk>
 
@@ -26,7 +26,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 
 	```
 	dependencies {
-		implementation('uk.co.smartcalling.sdk:smartcalling:2.0.6@aar') {
+		implementation('uk.co.smartcalling.sdk:smartcalling:4.1.7@aar') {
    			exclude(group: 'org.json', module: 'json')
 		}
 	}
