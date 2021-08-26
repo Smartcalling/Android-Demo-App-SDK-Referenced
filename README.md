@@ -86,6 +86,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 
 9) Next, Add the following to the onCreate() method of your project’s Application:
 
+	JAVA
 	```
 	@Override
 	public void onCreate() {
@@ -93,6 +94,15 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 	   
 		SmartCallingManager.init(this, "https://portal.smartcom.net/", null);
 	}
+	```
+		
+	KOTLIN
+	```
+	@Override
+	override fun onCreate() {
+		super.onCreate()
+		SmartCallingManager.init(this, "https://portal-uat.smartcom.net/", null)
+	}	
 	```
 
 10) Alternatively, if you want to support SSL Pinning to prevent a 'Man in the Middle' attack you can provide a set of SHA256 keys as a list of strings in the second parameter. The keys shown here are for the SmartCom API but if you are hosting the Portal/API yourself you can gather your keys using this site https://www.ssllabs.com/ssltest. Please note that each string must start with 'sha256/':
