@@ -76,7 +76,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 
 	**KOTLIN**
 	```
-	public class MyApplication : Application() { 
+	class MyApplication : Application() { 
 		override fun onCreate() {
 			super.onCreate()
 		}
