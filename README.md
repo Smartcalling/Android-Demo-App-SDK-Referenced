@@ -86,7 +86,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 
 9) Next, Add the following to the onCreate() method of your project’s Application:
 
-	JAVA
+	**JAVA**
 	```
 	@Override
 	public void onCreate() {
@@ -96,9 +96,8 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 	}
 	```
 		
-	KOTLIN
+	**KOTLIN**
 	```
-	@Override
 	override fun onCreate() {
 		super.onCreate()
 		SmartCallingManager.init(this, "https://portal-uat.smartcom.net/", null)
@@ -107,6 +106,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 
 10) Alternatively, if you want to support SSL Pinning to prevent a 'Man in the Middle' attack you can provide a set of SHA256 keys as a list of strings in the second parameter. The keys shown here are for the SmartCom API but if you are hosting the Portal/API yourself you can gather your keys using this site https://www.ssllabs.com/ssltest. Please note that each string must start with 'sha256/':
 
+	**JAVA**
 	```
 	@Override
 	public void onCreate() {
@@ -120,22 +120,49 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 		SmartCallingManager.init(this, "https://portal.smartcom.net/", sslPins);
 	}
 	```
-		
+
+	**KOTLIN**
+	```
+	override fun onCreate() {
+		super.onCreate()
+		List<String> sslPins = new ArrayList<String>()
+		sslPins.add("sha256/oqVjl7U2cA40xKaPgwLOLl2OaBulsnLEWGCA//gd9qo=")
+		sslPins.add("sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=")
+		sslPins.add("sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=")
+		sslPins.add("sha256/KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=")
+		SmartCallingManager.init(this, "https://portal-uat.smartcom.net/", sslPins)
+	}	
+	```
+
 11) If you require a reference to the SmartCalling Manager instance you can do so using something like the code below. You can then use this reference instead of calling *SmartCallingManager.getInstance()* each time. The example code below will continue to use *SmartCallingManager.getInstance()* but all occurrences of this code could be replaced with your referenced instance variable:
 
+	**JAVA**
 	```
 	public static SmartCallingManager smartCallingManager;
 	smartCallingManager = SmartCallingManager.getInstance();
 	```
+		
+	**KOTLIN**
+	```
+	var smartCallingManager: SmartCallingManager? = null 
+	smartCallingManager = SmartCallingManager.getInstance()
+	```
 
 12) The library requires certain permissions to work correctly, to that end you need to make a call to the 'requestPermissions' function in the library. Ideally this line of code should be written into your starting activity. **This function MUST be called after the 'init' command**:
 
+	**JAVA**
 	```
 	SmartCallingManager.getInstance().requestPermissions(this);
+	```
+		
+	**KOTLIN**
+	```
+	SmartCallingManager.getInstance().requestPermissions(this)
 	```
 
 13) Then you will need to ensure your activity extends from AppCompatActivity and you will need to implement two methods to forward Android permission callbacks on to the SmartCalling library. These methods are onRequestPermissionsResult and onActivityResult. Once you have implemented these, ensure they are calling super() with all the required arguments and then ensure that each method forwards on to the SmartCallingManager. Your methods should look like this:
 
+	**JAVA**
 	```
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -149,14 +176,33 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 		SmartCallingManager.getInstance().onActivityResult(this, requestCode, resultCode, data);
 	}
 	```
+		
+	**KOTLIN**
+	```
+	override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+		SmartCallingManager.getInstance().onRequestPermissionsResult(this, requestCode, permissions, grantResults)
+	}
+
+	override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) { 
+		super.onActivityResult(requestCode, resultCode, data)
+		SmartCallingManager.getInstance().onActivityResult(this, requestCode, resultCode, data)
+	}	
+	```
 
 
 ## Login Process
 
 1) An assumption is made that your app will have a login process that results in the app receiving user information. For the library to work correctly, your login process must return a unique ID for the user logged in. This unique ID must be passed to the library using the following code (where XXX is the unique user ID):
 
+	**JAVA**
 	```
 	SmartCallingManager.getInstance().setClientId("XXX");
+	```
+		
+	**KOTLIN**
+	```
+	SmartCallingManager.getInstance().setClientId("XXX")
 	```
 
 2) The unique ID can be any value such as a primary key value or GUID. It simply needs to be unique to your user within your system.
@@ -166,8 +212,14 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 
 1) If your app has a logout process it is important that you add code to logout of the library also. Simply add the following line of code to your logout process:
 
+	**JAVA**
 	```
 	SmartCallingManager.getInstance().logOut();
+	```
+		
+	**KOTLIN**
+	```
+	SmartCallingManager.getInstance().logOut()
 	```
 
 
@@ -175,34 +227,56 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
   
 1) The SmartCom solution utilises FireBase Cloud Messaging (FCM) to notify your app of any changes to your campaigns. Once your app has a push token, this must be applied to the FCMToken property of the SmartCallingManager. Below is an example of initialising Firebase and sending the token to the library:
 
+	**JAVA**
 	```
-	FirebaseInstanceId.getInstance().getInstanceId()
-		.addOnCompleteListener(task -> {
-			if (!task.isSuccessful()) {
-				// You may want to log this issue
-				return;
-			}
+	FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(task -> {
+		if (!task.isSuccessful()) {
+			// You may want to log this issue
+			return;
+		}
 
-			// Get new Instance ID token
-			String token = Objects.requireNonNull(task.getResult()).getToken();
-			SmartCallingManager.getInstance().setFCMToken(token);
-		});
-
+		// Get new Instance ID token
+		String token = Objects.requireNonNull(task.getResult()).getToken();
+		SmartCallingManager.getInstance().setFCMToken(token);
+	});
+	```
+		
+	**KOTLIN**
+	```
+	FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task: Task<InstanceIdResult?> -> 
+		if (!task.isSuccessful) {
+			// You may want to log this issue
+			return@addOnCompleteListener
+		}
+		// Get new Instance ID token
+		val token: String = Objects.requireNonNull(task.result).getToken()
+		SmartCallingManager.getInstance().setFCMToken(token)
+	}
 	```
 
 2) Next, you must add code to subscribe to the 'campaign' topic:
 
+	**JAVA**
 	```
-	FirebaseMessaging.getInstance().subscribeToTopic("smartcallingcampaign")
-		.addOnCompleteListener(task1 -> {
-			if (!task1.isSuccessful()) {
-				// You may want to log this issue
-			}
-		});
+	FirebaseMessaging.getInstance().subscribeToTopic("smartcallingcampaign").addOnCompleteListener(task1 -> {
+		if (!task1.isSuccessful()) {
+			// You may want to log this issue
+		}
+	});
+	```
+		
+	**KOTLIN**
+	```
+	FirebaseMessaging.getInstance().subscribeToTopic("smartcallingcampaign").addOnCompleteListener { task1: Task<Void?> -> 
+		if (!task1.isSuccessful) {
+			// You may want to log this issue
+		}
+	}
 	```
 
 3) If your Smartcalling contract supports the use of blacklists, you must also add code to subscribe to the 'smblacklistupdate' topic. This code can go immediately beneath the code subscribing to the 'smartcallingcampaign' topic:
 
+	**JAVA**
 	```
 	FirebaseMessaging.getInstance().subscribeToTopic("smblacklistupdate")
 		.addOnCompleteListener(task1 -> {
@@ -211,9 +285,19 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 			}
 		});
 	```
+		
+	**KOTLIN**
+	```
+	FirebaseMessaging.getInstance().subscribeToTopic("smblacklistupdate").addOnCompleteListener { task1: Task<Void?> -> 
+		if (!task1.isSuccessful) {
+			// You may want to log this issue
+		}
+	}
+	```
 
 4) When a push is received your push handler must pass the push data to the library. This demo app has an example of how to do this using a 'OneTimeWorkRequest':
 
+	**JAVA**
 	```
 	@Override
 	public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -258,9 +342,46 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 		}
 	}
 	```
+		
+	**KOTLIN**
+	```
+	fun onMessageReceived(remoteMessage:RemoteMessage) {
+		super.onMessageReceived(remoteMessage)
+		val pm = (applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager) 
+		val isScreenOn = pm.isInteractive
+		if (!isScreenOn) {
+			@SuppressLint("InvalidWakeLockTag") 
+			val wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUPor PowerManager.ON_AFTER_RELEASE, "MyLock")
+			wl.acquire(10000)
+			@SuppressLint("InvalidWakeLockTag") 
+			val wl_cpu = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyCpuLock")
+			wl_cpu.acquire(10000)
+		}
+		if (remoteMessage.getData().size > 0) {
+			scheduleJob(remoteMessage.getData())
+		}
+	}
+
+		
+	private fun scheduleJob(data: Map<String, String>) {
+		Globals.pushData = data
+		val work = OneTimeWorkRequest.Builder(FBWorker::class.java).build()
+		WorkManager.getInstance().beginWith(work).enqueue()
+	}
+
+		
+	public class FBWorker : Worker() {
+		override fun doWork(): Result {
+			// Utilise push data stored in global static variable
+			val result: String = Globals.smartCallingManager.parsePushMessage(Globals.pushData) 
+			return Result.success()
+		}
+	}
+	```
 	
 5) If you can't or do not want to support the FCM push messaging solution you will need to implement a background worker that calls the SmartCallingManager.sync command. An example of this can be found in the HomeActivity of demo app:
 
+	**JAVA**
 	```
 	protected void onCreate(Bundle savedInstanceState) {
 		...
@@ -303,6 +424,44 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 		@Override
 		public void onStopped() {
 			super.onStopped();
+		}
+	}
+	```
+		
+	**KOTLIN**
+	```
+	override fun onCreate(savedInstanceState: Bundle?) {
+		...
+		startWorker()
+		...
+	}
+
+	private fun startWorker() {
+		val mWorkManager = WorkManager.getInstance(applicationContext) 
+		val constraints = Constraints.Builder()
+			.setRequiredNetworkType(NetworkType.CONNECTED)
+			.build()
+		val workRequest = PeriodicWorkRequest.Builder(SCWorker::class.java, 15, TimeUnit.MINUTES)
+			.setConstraints(constraints)
+			.build()
+		mWorkManager.enqueueUniquePeriodicWork("SmartComSync", ExistingPeriodicWorkPolicy.REPLACE, workRequest)
+		mWorkManager.getWorkInfoByIdLiveData(workRequest.id)
+			.observe(this, 
+				Observer { info: WorkInfo? ->
+					// You may want to log this
+				}
+			)
+		}
+	}
+
+	public class SCWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+		override fun doWork(): Result {
+			Globals.smartCallingManager.sync()
+			return Result.success()
+		}
+
+		override fun onStopped() {
+			super.onStopped()
 		}
 	}
 	```
