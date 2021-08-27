@@ -5,6 +5,16 @@
 Please report any bugs/issues/suggestions to <cj@smartcalling.co.uk>
 
 
+## Pre-Requisites
+
+First you must setup an Account, an App and a Campaign in the portal. The UAT portal address is: https://portal-uat.smartcom.net/
+
+The next step is to add an app into the portal. If you do not already have an app you will need to create your own test app. Once you have an app, you will need to log into the portal and use the Add App button. Make sure you provide all the required details correctly, especially the bundle name. For the IOS package name just enter any value if you do not have an IOS app. The library works much better if you can include the FireBase Push Messaging details so you may need to create a Firebase account for your test app. To find your FCM Key and Sender ID, login to your Firebase account, select your app and then press the Settings button next to the Project Overview label. Then select Cloud Messaging and you will see your Server Key and Sender Id there. If you do not have a server key you will need to add one.
+
+Once the app has been created in the portal, you can then go to the Account section in the portal (Menu - Account) to see and copy your API Key. You will need this key when integrating the library into your app.
+
+You are now ready to follow the instructions below. Simply follow the instructions to reference the library in your app and provide the library with the details it requires. One important part is the ClientId, your app must provide a unique ClientId in your app for each device/user and you must use these clientIds when creating Campaigns.
+
 ## Installation
 
 
@@ -64,7 +74,6 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 
 8) If you do not already have one, you must create an Application class and reference that class in your manifest:
 
-	**JAVA**
 	```
 	public class MyApplication extends Application {
 		@Override
@@ -72,19 +81,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 			super.onCreate();
 		}
 	}
-	```
 
-	**KOTLIN**
-	```
-	class MyApplication : Application() { 
-		override fun onCreate() {
-			super.onCreate()
-		}
-	}
-	```
-
-	**Manifest**
-	```
 	<manifest>
 		...
 		<application
@@ -364,7 +361,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 		val isScreenOn = pm.isInteractive
 		if (!isScreenOn) {
 			@SuppressLint("InvalidWakeLockTag") 
-			val wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK || PowerManager.ACQUIRE_CAUSES_WAKEUP || PowerManager.ON_AFTER_RELEASE, "MyLock")
+			val wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUPor PowerManager.ON_AFTER_RELEASE, "MyLock")
 			wl.acquire(10000)
 			@SuppressLint("InvalidWakeLockTag") 
 			val wl_cpu = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "MyCpuLock")
