@@ -1,6 +1,6 @@
 # Android-Demo-App-SDK-Referenced
-	App Version: 4.17
-	Library Version: 4.1.7
+	App Version: 4.18
+	Library Version: 4.1.8
 
 Please report any bugs/issues/suggestions to <cj@smartcalling.co.uk>
 
@@ -14,6 +14,10 @@ The next step is to add an app into the portal. If you do not already have an ap
 Once the app has been created in the portal, you can then go to the Account section in the portal (Menu - Account) to see and copy your API Key. You will need this key when integrating the library into your app.
 
 You are now ready to follow the instructions below. Simply follow the instructions to reference the library in your app and provide the library with the details it requires. One important part is the ClientId, your app must provide a unique ClientId in your app for each device/user and you must use these clientIds when creating Campaigns.
+
+## Emulators
+
+While you can test the SmartCom library in an emulator we have noticed some occasional spurious results when testing campaings and anti-vishing. For that reason, we strongly recommend you test the SmartCom libraries on physical devices for best results.
 
 ## Installation
 
