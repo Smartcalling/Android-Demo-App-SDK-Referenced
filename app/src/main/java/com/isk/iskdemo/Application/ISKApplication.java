@@ -27,7 +27,7 @@ public class ISKApplication extends Application {
 		sslPins.add("sha256/KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=");
 		SmartCallingManager.init(this, "https://portal-uat.smartcom.net/", sslPins, null);
 
-		//		SmartCallingManager.init(this, "https://528a27c47b2e.ngrok.io/", null);
+//		SmartCallingManager.init(this, "https://3431c210eae7.ngrok.io/", null, null);
 
 		Globals.smartCallingManager = SmartCallingManager.getInstance();
 
