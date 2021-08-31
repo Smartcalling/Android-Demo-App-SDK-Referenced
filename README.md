@@ -17,7 +17,7 @@ You are now ready to follow the instructions below. Simply follow the instructio
 
 ## Emulators
 
-While you can test the SmartCom library in an emulator we have noticed some occasional spurious results when testing campaigns and anti-vishing. For that reason, we strongly recommend you test the SmartCom libraries on physical devices for best results.
+While you can test the SmartCalling library in an emulator we have noticed some occasional spurious results when testing campaigns and anti-vishing. For that reason, we strongly recommend you test the SmartCalling libraries on physical devices for best results.
 
 ## Installation
 
