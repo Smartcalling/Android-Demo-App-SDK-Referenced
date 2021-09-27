@@ -114,7 +114,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 	```
 	override fun onCreate() {
 		super.onCreate()
-		SmartCallingManager.init(this, "https://portal-uat.smartcom.net/", null)
+		SmartCallingManager.init(this, "https://portal.smartcom.net/", null)
 	}	
 	```
 
@@ -144,7 +144,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 		sslPins.add("sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=")
 		sslPins.add("sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=")
 		sslPins.add("sha256/KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=")
-		SmartCallingManager.init(this, "https://portal-uat.smartcom.net/", sslPins)
+		SmartCallingManager.init(this, "https://portal.smartcom.net/", sslPins)
 	}	
 	```
 
