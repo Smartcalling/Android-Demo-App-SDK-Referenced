@@ -1,6 +1,6 @@
 # Android-Demo-App-SDK-Referenced
-	App Version: 4.17
-	Library Version: 4.1.7
+	App Version: 4.18
+	Library Version: 4.1.8
 
 Please report any bugs/issues/suggestions to <cj@smartcalling.co.uk>
 
@@ -15,8 +15,31 @@ Once the app has been created in the portal, you can then go to the Account sect
 
 You are now ready to follow the instructions below. Simply follow the instructions to reference the library in your app and provide the library with the details it requires. One important part is the ClientId, your app must provide a unique ClientId in your app for each device/user and you must use these clientIds when creating Campaigns.
 
-## Installation
+## Emulators
 
+While you can test the SmartCalling library in an emulator we have noticed some occasional spurious results when testing campaigns and anti-vishing. For that reason, we strongly recommend you test the SmartCalling libraries on physical devices for best results.
+
+## Permissions
+
+The Android library requires the following permissions to work correctly. The permissions have been split into those that will require the user to agree and those that do not require a user prompt:
+
+**No User Prompt**
+| Permission | Description |
+| ---------- | ----------- |
+| INTERNET   | Required to access the internet |
+| RECEIVE_BOOT_COMPLETED | Required to inform the SDK of a re-boot so that it can start up in’s services |
+| ACCESS_NETWORK_STATE | Required to enable the SDK to determine if the device has an internet connection |
+| ACCESS_NOTIFICATION_POLICY | Required to support push notifications |
+| WAKE_LOCK | Required to ensure that the app receives and actions data pushes when the device is asleep |
+
+**Requires User Prompt**
+| Permission | Description |
+| ---------- | ----------- |
+| READ_PHONE_STATE | Make and manage phone calls. Required to detent incoming calls |
+| READ_CALL_LOG | To Access Call Logs. Required to determine number of incoming call |
+| SYSTEM_ALERT_WINDOW | Takes user to Settings. Required to display call card overlay to user |
+
+## Installation
 
 The SmartCalling library is provided in the form of an AAR file (Android Library Project) and can be included in your project as a Maven dependency. **This library requires a Android SDK version 21 as a minimum**.
 
@@ -94,7 +117,8 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 	<mainfest>
 	```
 
-9) Next, Add the following to the onCreate() method of your project’s Application:
+9) The library uses the SmartCalling servers by default. If you do not intend to use your own server then you must use our UAT server for testing (https://portal-uat.smartcom.net/). Once you are ready to go live you will need to contact SmartCom to enable your organisation on the live server, you will then be provided with our live server address.<br/>
+Add the following to the onCreate() method of your project’s Application, if you are using your own server, just replace the URLs below::
 
 	**JAVA**
 	```
@@ -102,7 +126,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 	public void onCreate() {
 		super.onCreate();
 	   
-		SmartCallingManager.init(this, "https://portal.smartcom.net/", null);
+		SmartCallingManager.init(this, "https://portal-uat.smartcom.net/", null);
 	}
 	```
 		
@@ -127,7 +151,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 		sslPins.add("sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=");
 		sslPins.add("sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=");
 		sslPins.add("sha256/KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=");
-		SmartCallingManager.init(this, "https://portal.smartcom.net/", sslPins);
+		SmartCallingManager.init(this, "https://portal-uat.smartcom.net/", sslPins);
 	}
 	```
 
@@ -389,7 +413,7 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 	}
 	```
 	
-5) If you can't or do not want to support the FCM push messaging solution you will need to implement a background worker that calls the SmartCallingManager.sync command. An example of this can be found in the HomeActivity of demo app:
+5) If you can't or do not want to support the FCM push messaging solution you will need to implement a background worker that calls the SmartCallingManager.sync command. An example of this can be found in the HomeActivity of demo app.<br/>Please note that background refresh is only relevant if you are using our portal to create and manage your campaigns. If you are creating campaigns via your Contact Management System then backround updating will serve no purpose:
 
 	**JAVA**
 	```
@@ -475,6 +499,21 @@ The SmartCalling library is provided in the form of an AAR file (Android Library
 		}
 	}
 	```
-
+	Please be aware that background processes can affect both battery and data usage on your user's device.
 		
 #### Congratulations, you are now ready to start using SmartCalling!
+		
+
+## Support & FAQ
+
+If you require support for your SmartCom integration please first request a support account by emailing Donovan@smartcom.net. Once the email is received you will be sent an activation email. Please follow the instructions in the email to set up your account and password. Once complete, you will be able to login to our support system to create tickets. Please note that we only provide one support account per organisation.
+<br/>
+<br/>
+<br/>
+**Q1. What size and format should my campaign images be?**<br/>
+For IOS we recommend a square image (1:1) ideally 200 * 200 pixels in size. For Android we recommend a ratio of 4:3 with a recommended size of 480 * 360 pixels.
+		
+**Q2. Is Client Ready or Are Clients Ready API calls returning True after Push Campaign cancelled**<br/>
+It is possible for a true response if the device in question has been turned off or is not able to receive push notifications.<br/>
+Consider this scenario: Phone A and phone B are both switched on. A push campaign is sent to both phones, each phone receives the push and sets the device up ready to receive a call. A call to 'Is Client Ready' for each device returns true. Phone B is then switched off or moves into an area with no signal. The client sends a 'Cancel Push Campaign' to each device. Because only phone A is able to receive the push, only phone A removes the campaign. Phone B has no signal or is switched off so does not receive the push and is therefor still set up to receive the campaign call. When an 'Is Client Ready' call is now made for each phone, phone A returns false but phone B still returns true because it has not received the cancel push.
+
