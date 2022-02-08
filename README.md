@@ -329,12 +329,26 @@ Add the following to the onCreate() method of your project’s Application, if y
 	}
 	```
 
-4) When a push is received your push handler must pass the push data to the library. This demo app has an example of how to do this using a 'OneTimeWorkRequest':
+4) When a push is received your push handler must pass the push data to the library. This demo app has an example of how to do this using a 'OneTimeWorkRequest'. As you can see from the code below, because this routine can be hit while the app is not running it is important that we re-initialise the SmartCallingManager instance if it is null:
 
 	**JAVA**
 	```
 	@Override
 	public void onMessageReceived(RemoteMessage remoteMessage) {
+		if (Globals.smartCallingManager == null) {
+			SharedPreferences settings = getSharedPreferences("scBank", MODE_PRIVATE);
+			if (settings.contains("APIUrl")) {
+				Globals.apiURL = settings.getString("APIUrl", "https://portal-uat.smartcom.net/");
+			}
+			List<String> sslPins = new ArrayList<String>();
+			sslPins.add("sha256/oqVjl7U2cA40xKaPgwLOLl2OaBulsnLEWGCA//gd9qo=");
+			sslPins.add("sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=");
+			sslPins.add("sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=");
+			sslPins.add("sha256/KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=");
+			SmartCallingManager.init(this.getApplication(), Globals.apiURL, sslPins, settings.getString("APIKey", ""));
+			Globals.smartCallingManager = SmartCallingManager.getInstance();
+		}
+
 		PowerManager pm = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
 		assert pm != null;
 		boolean isScreenOn = pm.isInteractive();
@@ -381,6 +395,21 @@ Add the following to the onCreate() method of your project’s Application, if y
 	```
 	fun onMessageReceived(remoteMessage:RemoteMessage) {
 		super.onMessageReceived(remoteMessage)
+
+		if (Globals.smartCallingManager == null) {
+			val settings = getSharedPreferences("scBank", MODE_PRIVATE)
+			if (settings.contains("APIUrl")) {
+				Globals.apiURL = settings.getString("APIUrl", "https://portal-uat.smartcom.net/")
+			}
+			var sslPins: MutableList<String> = ArrayList()
+			sslPins.add("sha256/s/pS3RZ80zGSt0LxpzvvE462hDL3apULVVBtQRbLYnQ=")
+			sslPins.add("sha256/JSMzqOOrtyOT1kmau6zKhgT676hGgczD5VMdRMyJZFA=")
+			sslPins.add("sha256/++MBgDH5WGvL9Bcn5Be30cRcL0f5O+NyoXuWtQdX1aI=")
+			sslPins.add("sha256/KwccWaCgrnaw6tsrrSO61FgLacNgG2MMLq8GE6+oP5I=")
+			SmartCallingManager.init(this.application, Globals.apiURL, sslPins, settings.getString("APIKey", ""))
+			Globals.smartCallingManager = getInstance()
+		}
+		
 		val pm = (applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager) 
 		val isScreenOn = pm.isInteractive
 		if (!isScreenOn) {
