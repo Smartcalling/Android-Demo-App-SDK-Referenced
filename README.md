@@ -227,7 +227,7 @@ Add the following to the onCreate() method of your project’s Application, if y
 
 ## Login Process
 
-1) An assumption is made that your app will have a login process that results in the app receiving user information. For the library to work correctly, your login process must return a unique ID for the user logged in. This unique ID must be passed to the library using the following code (where XXX is the unique user ID):
+1) An assumption is made that your app will have a login process that results in the app receiving user information. For the library to work completely, your login process must return a Client ID for the user logged in. The Client Id can be any string (or quoted numeric value) that **uniquely identifies** the user on your system such as a database Id. While an email address or mobile phone number may be an obvious value to use we ask that you do not use these values unless they are encrypted as it is important you do not use any identifiable information as per current GDPR guidelines. You will need to use this value to inform the SmartCalling system when setting up campaigns for your users. This Client ID must be passed to the library using the following code (where XXX is the unique Client ID):
 
 	**JAVA**
 	```
