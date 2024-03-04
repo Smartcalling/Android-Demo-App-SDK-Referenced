@@ -2,7 +2,7 @@
 	App Version: 4.18
 	Library Version: 4.1.8
 
-Please report any bugs/issues/suggestions to <cj@smartcalling.co.uk>
+Please report any bugs/issues/suggestions to <cj@smartcom.net>
 
 
 ## Pre-Requisites
